@@ -1,1 +1,1 @@
-# A Pathfinding algorithm visualization using Pygame
+# A* Pathfinding algorithm visualization using Pygame
