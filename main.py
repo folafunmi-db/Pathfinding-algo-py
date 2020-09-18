@@ -61,6 +61,9 @@ class Spot:
     def make_barrier(self):
         self.colour = BLACK
 
+    def make_start(self):
+        self.colour = ORANGE
+
     def make_end(self):
         self.colour = TURQUOISE
 
@@ -102,7 +105,9 @@ def draw_grid(win, rows, width):
     for i in range(rows):
         pygame.draw.line(win, GREY, (0, i * gap), (width, i * gap))
         for j in range(rows):
-            pygame.draw.line(win, GREY, (j * gap, 0), (j * gap, width))
+            pygame.draw.line(
+                win, GREY, (j * gap, 0), (j * gap, width)
+            )
 
 
 def draw(win, grid, rows, width):
@@ -112,3 +117,36 @@ def draw(win, grid, rows, width):
             spot.draw(win)
     draw_grid(win, rows, width)
     pygame.display.update()
+
+
+def get_clicked_pos(pos, rows, width):
+    gap = width // rows
+    y, x = pos
+    row = y // gap
+    col = x // gap
+
+
+def main(win, width):
+    ROWS = 50
+    grid = make_grid(ROWS, width)
+    start = None
+    end = None
+    run = True
+    started = False
+    while run:
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                run = False
+            if started:
+                continue
+            # Left mouse press
+            if pygame.mouse.get_pressed()[0]:
+                pos = ygame.mouse.get_pos()
+                row, col = get_clicked_pos(pos, ROWS, width)
+                spot = grid[row][col]
+                if not start:
+                    start = spot
+            # Right mouse press
+            elif pygame.mouse.get_pressed()[2]:
+                
+    pygame.quit()
