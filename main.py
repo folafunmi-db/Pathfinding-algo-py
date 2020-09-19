@@ -50,7 +50,7 @@ class Spot:
         return self.colour == TURQUOISE
 
     def reset(self):
-        return self.colour == WHITE
+        self.colour = WHITE
 
     def make_closed(self):
         self.colour = RED
@@ -161,7 +161,14 @@ def main(win, width):
 
             # Right mouse press
             elif pygame.mouse.get_pressed()[2]:
-                pass
+                pos = pygame.mouse.get_pos()
+                row, col = get_clicked_pos(pos, ROWS, width)
+                spot = grid[row][col]
+                spot.reset()
+                if spot == start:
+                    start = None
+                elif spot == end:
+                    end = None
 
     pygame.quit()
 
