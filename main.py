@@ -125,6 +125,8 @@ def get_clicked_pos(pos, rows, width):
     row = y // gap
     col = x // gap
 
+    return row, col
+
 
 def main(win, width):
     ROWS = 50
@@ -134,6 +136,8 @@ def main(win, width):
     run = True
     started = False
     while run:
+        # Draw
+        draw(win, grid, ROWS, width)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
@@ -141,12 +145,25 @@ def main(win, width):
                 continue
             # Left mouse press
             if pygame.mouse.get_pressed()[0]:
-                pos = ygame.mouse.get_pos()
+                pos = pygame.mouse.get_pos()
                 row, col = get_clicked_pos(pos, ROWS, width)
                 spot = grid[row][col]
-                if not start:
+
+                if not start and spot != end:
                     start = spot
+                    start.make_start()
+                elif not end and spot != start:
+                    end = spot
+                    end.make_end()
+
+                elif spot != end and spot != start:
+                    spot.make_barrier()
+
             # Right mouse press
             elif pygame.mouse.get_pressed()[2]:
-                
+                pass
+
     pygame.quit()
+
+
+main(WIN, WIDTH)
