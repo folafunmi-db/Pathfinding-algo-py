@@ -212,15 +212,12 @@ def main(win, width):
     start = None
     end = None
     run = True
-    started = False
     while run:
         # Draw
         draw(win, grid, ROWS, width)
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 run = False
-            if started:
-                continue
             # Left mouse press
             if pygame.mouse.get_pressed()[0]:
                 pos = pygame.mouse.get_pos()
@@ -248,7 +245,7 @@ def main(win, width):
                 elif spot == end:
                     end = None
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_SPACE and not started:
+                if event.key == pygame.K_SPACE and start and end:
                     for row in grid:
                         for spot in row:
                             spot.update_neighbours(grid)
@@ -259,6 +256,11 @@ def main(win, width):
                         start,
                         end,
                     )
+                
+                if event.key == pygame.K_ESCAPE:
+                    start = None
+                    end = None
+                    grid = make_grid(ROWS, width)
 
     pygame.quit()
 
