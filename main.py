@@ -113,6 +113,13 @@ def h(p1, p2):
     return abs(x1 - x2) + abs(y1 - y2)
 
 
+def reconstruct_path(came_from, current, draw):
+    while current in came_from:
+        current = came_from[current]
+        current.make_path()
+        draw()
+
+
 def algorithm(draw, grid, start, end):
     count = 0
     open_set = PriorityQueue()
@@ -135,6 +142,8 @@ def algorithm(draw, grid, start, end):
         
         # To make a final path
         if current == end:
+            reconstruct_path(came_from, current, draw)
+            end.make_end()
             return True
         
         for neighbour in current.neighbours:
